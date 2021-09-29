@@ -1,9 +1,7 @@
 # Install python-tackerclient & tacker-horizon, and config mysql
 ## Prerequisites
 ```
-stack@tacker: pip3 install virtualenv
-
-stack@tacker:~$ mkdir -p ansible/source
+[osboxes@ansiblecontroller ~]$ pip3 install virtualenv
 ```
 
 ## Create a venv directory for virtualenv
