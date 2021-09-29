@@ -1,0 +1,45 @@
+---
+- name: Network Getting Started First Playbook
+  hosts: target1
+  become: true
+  tasks:
+    - debug:
+        msg: "System {{ ansible_os_family }}"
+
+    - name: Install git on Debian
+      apt:
+        name: git
+        state: present
+      when: ansible_os_family == 'Debian'
+    
+    - name: Install git on RedHat
+      yum:
+        name: git
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Git clone tacker client
+      git:
+        repo: https://github.com/SSU-DCN/python-tackerclient.git
+        dest: /opt/stack
+        version: stable/ussuri
+        clone: yes
+
+    - name: Git clone tacker horizon
+      git:
+        repo: https://github.com/SSU-DCN/tacker-horizon.git
+        dest: /opt/stack
+        version: stable/ussuri
+        clone: yes
+
+# - name: Install git
+#   apt:
+
+#   when: ansible_os_family == 'Debian'
+
+# - name: Git checkout
+#   hosts: target1
+#   ansible.builtin.git:
+#     repo: 'https://github.com/SSU-DCN/python-tackerclient.git'
+#     dest: /opt/stack
+#     version: release-0.22

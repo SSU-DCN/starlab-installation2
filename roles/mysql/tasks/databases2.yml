@@ -1,0 +1,22 @@
+- name: Create a '{{ database_name }}' database
+  community.mysql.mysql_db: 
+    name: '{{ database_name }}'
+    state: present 
+    login_user: root
+    login_password: "{{ mysql_root_password }}" 
+
+- name: Create table healing policy
+  command: mysql -u '{{ mysql_root_username }}' -p'{{ mysql_root_password }}' --database='{{ database_name }}' --skip-column-names --execute
+    "create table healing_policy (
+      id varchar(36) NOT NULL,
+      action_id varchar(36) NOT NULL,
+      action_type varchar(64) NOT NULL,
+      policy_name varchar(64) NOT NULL,
+      timestamp datetime NOT NULL,
+      PRIMARY KEY (id)
+    )"
+
+# - name: Delete '{{ database_name }}' database
+#   mysql_db: 
+#     name: '{{ database_name }}'
+#     state: absent 

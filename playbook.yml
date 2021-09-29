@@ -1,0 +1,9 @@
+---
+- name: Install and configure Tacker
+  hosts: devstack
+  roles:
+    - tacker
+- name: Access mysql database
+  hosts: devstack
+  roles:
+    - mysql

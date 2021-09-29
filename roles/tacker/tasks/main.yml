@@ -1,0 +1,56 @@
+---
+- name: Install git on Debian
+  apt:
+    name: git
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install git on RedHat
+  yum:
+    name: git
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Git clone tacker client
+  git:
+    repo: https://github.com/SSU-DCN/python-tackerclient.git
+    dest: /opt/stack/python-tackerclient
+    version: stable/ussuri
+    clone: yes
+
+# - name: Install python-tackerclient
+#   ansible.builtin.script: ../files/setup.py
+#   args:
+#     executable: python3
+#   become: true 
+
+
+- name: Git clone tacker horizon
+  git:
+    repo: https://github.com/SSU-DCN/tacker-horizon.git
+    dest: /opt/stack/tacker-horizon
+    version: stable/ussuri
+    clone: yes
+
+# - name: Install tacker horizon
+#   ansible.builtin.script:
+#     cmd: python3 /opt/stack/tacker-horizon/setup.py install 
+
+- name: Enable tacker horizon in dashboard
+  ansible.builtin.shell: 
+    chdir: /opt/stack/tacker-horizon
+    cmd: "cp tacker_horizon/enabled/* 
+        /opt/stack/horizon/openstack_dashboard/enabled/"
+  become: true
+
+- name: Collect and compress static files
+  ansible.builtin.shell: 
+    chdir: /opt/stack/tacker-horizon
+    cmd: "python3 ./manage.py collectstatic --noinput"
+  become: true
+    
+- name: Restart the Apache2
+  ansible.builtin.service:
+    name: apache2.service
+    state: restarted
+  become: true
