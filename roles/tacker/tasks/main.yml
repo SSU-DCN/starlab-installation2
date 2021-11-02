@@ -11,6 +11,12 @@
     state: present
   when: ansible_os_family == 'RedHat'
 
+- name: Uninstall pip tacker-client
+  ansible.builtin.pip:
+    name: python-tackerclient
+    state: absent
+  become: true
+
 - name: Git clone tacker client
   git:
     repo: https://github.com/SSU-DCN/python-tackerclient.git
@@ -18,11 +24,11 @@
     version: stable/ussuri
     clone: yes
 
-# - name: Install python-tackerclient
-#   ansible.builtin.script: ../files/setup.py
-#   args:
-#     executable: python3
-#   become: true 
+- name: Install python-tackerclient
+  ansible.builtin.shell:
+    chdir: /opt/stack/python-tackerclient
+    cmd: "python3 ./setup.py install"
+  become: true 
 
 
 - name: Git clone tacker horizon
