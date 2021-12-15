@@ -12,6 +12,7 @@
 
 (venv) [osboxes@ansiblecontroller starlab-installation2]$ pip3 install virtualenv
 
+## Check ansible version
 (venv) [osboxes@ansiblecontroller starlab-installation2]$ ansible --version
 [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16
 2020, 16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be
